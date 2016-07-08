@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hangman</title>
+  </head>
+  <body>
+    <script>
+    //
+    //Game Setup
+    //
+    // Choose random word from a set of words
+    var pickWord = function() {
+      var words = [
+        "yellow",
+        "monkey",
+        "donkey",
+        "chocolate",
+        "league"
+      ];
+      return words[Math.floor(Math.random() * words.length)];
+    };
+
+    // Create array of underscores for the word to be guessed
+    var setUpAnswerArray = function(word) {
+      var answerArray = [];
+      for (var i = 0; i < word.length; i++) {
+        answerArray[i] = "_";
+      }
+      return answerArray;
+    };
+
+    // Show player's progress
+
+    var showPlayerProgress = function(answerArray){
+      return alert(answerArray.join(" "));
+    };
+
+    // Ask Player for Guess
+    var getGuess = function() {
+      return prompt("Guess a letter, or click cancel to stop playing.")
+    }
+
+    // Update word being guessed
+    var updateGameState = function(guess, word, answerArray) {
+      var correctGuesses = 0;
+      for (var j = 0; j < word.length; j++){
+        if (word[j] === guess && answerArray[j] === "_") {
+          answerArray[j] = guess;
+          correctGuesses++;
+        }
+      }
+      return correctGuesses;
+    };
+
+    //Show Answer and Congratulate player
+    var showAnswerAndCongratulatePLayer = function() {
+      alert(answerArray.join(" "));
+      alert("You guesed right! The word was " + answerArray.join("") +"!");
+    };
+
+    //
+    //Run Functions
+    //
+    var word = pickWord();
+    var answerArray = setUpAnswerArray(word);
+    var remainingLetters = word.length;
+
+    while (remainingLetters > 0){
+      showPlayerProgress(answerArray);
+      var guess = getGuess().toLowerCase();
+      if (guess === null){
+        break;
+      }
+      else if (guess.length !== 1){
+        alert("Please enter a single letter.");
+      }
+      else {
+        var correctGuesses = updateGameState(guess, word, answerArray);
+        remainingLetters -= correctGuesses;
+      }
+    }
+    showAnswerAndCongratulatePLayer();
+
+    </script>
+  </body>
+</html>
